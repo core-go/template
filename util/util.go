@@ -50,41 +50,11 @@ func Unmarshal(t *te.Template, param interface{}, op interface{}) error {
 	}
 	return json.NewDecoder(strings.NewReader(buf.String())).Decode(op)
 }
-func PtrToBool(s *string, v string) bool {
-	if s != nil && *s == v {
-		return true
-	}
-	return false
+func Skip(v interface{}) interface{} {
+	return v
 }
-func ToBool(s string, v string) bool {
-	if s == v {
-		return true
-	}
-	return false
-}
-func PtrToYesNo(s *string, v string) string {
-	if s != nil && *s == v {
-		return "Y"
-	}
-	return "N"
-}
-func ToYesNo(s string, v string) string {
-	if s == v {
-		return "Y"
-	}
-	return "N"
-}
-func Equal(s *string, v string) bool {
-	if s != nil && *s == v {
-		return true
-	}
-	return false
-}
-func ToString(s *string, v string) string {
-	if s != nil && *s != v {
-		return *s
-	}
-	return ""
+func FormatTime(timeValue time.Time) string {
+	return timeValue.Format(time.RFC3339)
 }
 func ParseFloat(s *string, v string) float64 {
 	if s != nil && *s != v {
@@ -102,6 +72,42 @@ func ToFloatPtr(s *string, v string) *float64 {
 		return &min
 	}
 	return nil
+}
+func ToBool(s string, v string) bool {
+	if s == v {
+		return true
+	}
+	return false
+}
+func PtrToBool(s *string, v string) bool {
+	if s != nil && *s == v {
+		return true
+	}
+	return false
+}
+func ToYesNo(s string, v string) string {
+	if s == v {
+		return "Y"
+	}
+	return "N"
+}
+func PtrToYesNo(s *string, v string) string {
+	if s != nil && *s == v {
+		return "Y"
+	}
+	return "N"
+}
+func Equal(s *string, v string) bool {
+	if s != nil && *s == v {
+		return true
+	}
+	return false
+}
+func ToString(s *string, v string) string {
+	if s != nil && *s != v {
+		return *s
+	}
+	return ""
 }
 func CheckCase(i, c, t, e string) string {
 	if i == c {
@@ -124,10 +130,4 @@ func CheckStrings(s []string, v string, r int) *int {
 		return &r
 	}
 	return nil
-}
-func Skip(v interface{}) interface{} {
-	return v
-}
-func FormatTime(timeValue time.Time) string {
-	return timeValue.Format(time.RFC3339)
 }
