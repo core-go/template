@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/core-go/text/template/parse"
+	"github.com/core-go/template/parse"
 )
 
 // common holds the information shared by related templates.

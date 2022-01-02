@@ -11,9 +11,10 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+	"time"
 
-	"github.com/core-go/text/fmtsort"
-	"github.com/core-go/text/template/parse"
+	"github.com/core-go/template/fmtsort"
+	"github.com/core-go/template/parse"
 )
 
 // maxExecDepth specifies the maximum stack depth of templates within
@@ -947,9 +948,31 @@ func indirectInterface(v reflect.Value) reflect.Value {
 // the template.
 func (s *state) printValue(n parse.Node, v reflect.Value) {
 	s.at(n)
+	var iface interface{}
 	iface, ok := printableValue(v)
 	if !ok {
 		s.errorf("can't print %s of type %s", n, v.Type())
+	}
+	if !strings.Contains(n.String(),"SKIP ") {
+		a := v.Interface()
+		if v.Kind() == reflect.Ptr {
+			if v.IsNil() {
+				iface = "null"
+			} else {
+				a = reflect.Indirect(reflect.ValueOf(a)).Interface()
+			}
+		}
+		x ,ok := a.(string)
+		if ok {
+			if strings.Contains(x,"\"") {
+				iface = "\"" + strings.Replace(x,"\"", "\\\"", -1) + "\""
+			} else {
+				iface = "\"" + x + "\""
+			}
+		} else if timeVale, ok := a.(time.Time); ok {
+			iface = "\"" + timeVale.Format(time.RFC3339) + "\""
+		}
+
 	}
 	_, err := fmt.Fprint(s.wr, iface)
 	if err != nil {
