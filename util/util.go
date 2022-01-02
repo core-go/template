@@ -88,7 +88,10 @@ func ToString(s *string, v string) string {
 }
 func ParseFloat(s *string, v string) float64 {
 	if s != nil && *s != v {
-		min, _ := strconv.ParseFloat(*s, 64)
+		min, err := strconv.ParseFloat(*s, 64)
+		if err != nil {
+			return 0
+		}
 		return min
 	}
 	return 0
@@ -112,8 +115,8 @@ func CheckStrings(s []string, v string, r int) *int {
 		return nil
 	}
 	count := 0
-	for _, v := range s {
-		if v != v {
+	for _, x := range s {
+		if x != v {
 			count++
 		}
 	}
