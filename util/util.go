@@ -56,14 +56,12 @@ func PtrToBool(s *string, v string) bool {
 	}
 	return false
 }
-
 func ToBool(s string, v string) bool {
 	if s == v {
 		return true
 	}
 	return false
 }
-
 func PtrToYesNo(s *string, v string) string {
 	if s != nil && *s == v {
 		return "Y"
