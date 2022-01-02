@@ -4,7 +4,7 @@
 
 // Helper functions to make constructing templates easier.
 
-package text
+package template
 
 import (
 	"fmt"

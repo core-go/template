@@ -7,14 +7,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/core-go/template"
+	te "github.com/core-go/template"
 )
 
-const (
-	dateFormat     = "2006-01-02"
-)
-func CreateFuncMap() template.FuncMap {
-	funcMap := make(template.FuncMap, 0)
+const dateFormat = "2006-01-02"
+
+func CreateFuncMap() te.FuncMap {
+	funcMap := make(te.FuncMap, 0)
 	funcMap["SKIP"] = Skip
 	funcMap["ToYesNo"] = ToYesNo
 	funcMap["PtrToYesNo"] = PtrToYesNo
@@ -25,7 +24,7 @@ func CreateFuncMap() template.FuncMap {
 	funcMap["ToFloatPtr"] = ToFloatPtr
 	funcMap["CheckCase"] = CheckCase
 	funcMap["CheckStrings"] = CheckStrings
-	funcMap["ParseTime"] = ParseTime
+	funcMap["FormatTime"] = FormatTime
 	return funcMap
 }
 func CreateParam(name string, v interface{}, opts ...map[string]interface{}) map[string]interface{} {
@@ -43,7 +42,7 @@ func CreateParam(name string, v interface{}, opts ...map[string]interface{}) map
 	}
 	return param
 }
-func Unmarshal(t *template.Template, param interface{}, op interface{}) error {
+func Unmarshal(t *te.Template, param interface{}, op interface{}) error {
 	buf := &bytes.Buffer{}
 	err := t.Execute(buf, param)
 	if err != nil {
@@ -128,6 +127,6 @@ func CheckStrings(s []string, v string, r int) *int {
 func Skip(v interface{}) interface{} {
 	return v
 }
-func ParseTime(timeValue time.Time) string {
+func FormatTime(timeValue time.Time) string {
 	return timeValue.Format(time.RFC3339)
 }

@@ -4,7 +4,7 @@
 
 // This file contains the code to handle template options.
 
-package text
+package template
 
 import "strings"
 
